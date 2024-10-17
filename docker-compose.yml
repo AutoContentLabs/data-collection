@@ -1,4 +1,4 @@
-version: '3.8'
+
 services:
 
   # MongoDB
@@ -12,7 +12,7 @@ services:
       - "27017:27017"
     volumes:
       - ./data/mongodb:/data/db
-      - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js # Başlangıç betiği
+      - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - backend
 
@@ -28,7 +28,7 @@ services:
       - "5432:5432"
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
-      - ./databases/postgresql/service/init.pgsql:/docker-entrypoint-initdb.d/init.sql # Başlangıç betiği
+      - ./databases/postgresql/service/init.pgsql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
 
@@ -41,8 +41,8 @@ services:
     volumes:
       - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
     environment:
-      PGADMIN_DEFAULT_EMAIL: "test@autoContentLabs"
-      PGADMIN_DEFAULT_PASSWORD: "test"
+      PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
+      PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
     depends_on:
       - postgresql
     networks:
@@ -60,7 +60,7 @@ services:
       - "9042:9042"
     volumes:
       - ./data/cassandra:/var/lib/cassandra
-      - ./databases/cassandra/service/init.cql:/docker-entrypoint-initdb.d/init.cql # Başlangıç betiği
+      - ./databases/cassandra/service/init.cql:/docker-entrypoint-initdb.d/init.cql
     networks:
       - backend
 
@@ -70,10 +70,10 @@ services:
     container_name: clickhouse
     ports:
       - "8123:8123"
-      - "9001:9000" # Port çakışmasını önlemek için 9000 yerine 9001
+      - "9001:9000"
     volumes:
       - ./data/clickhouse:/var/lib/clickhouse
-      - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql # Başlangıç betiği
+      - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
 
@@ -109,7 +109,7 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Bellek ayarı
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
     ports:
       - "9200:9200"
       - "9300:9300"
