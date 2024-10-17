@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
   # MongoDB
   mongodb:
     image: mongo
@@ -10,8 +11,8 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./databases/mongodb:/data/db
-      - ./databases/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js  # Başlangıç betiği
+      - ./data/mongodb:/data/db
+      - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js # Başlangıç betiği
     networks:
       - backend
 
@@ -26,12 +27,68 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./databases/postgresql:/var/lib/postgresql/data
-      - ./databases/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Başlangıç betiği
+      - ./data/postgresql:/var/lib/postgresql/data
+      - ./databases/postgresql/service/init.pgsql:/docker-entrypoint-initdb.d/init.sql # Başlangıç betiği
     networks:
       - backend
 
- # InfluxDB
+  # PostgreSQL UI (pgAdmin)
+  postgresql-ui:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    ports:
+      - "10304:80"
+    volumes:
+      - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "test@autoContentLabs"
+      PGADMIN_DEFAULT_PASSWORD: "test"
+    depends_on:
+      - postgresql
+    networks:
+      - backend
+
+  # Cassandra
+  cassandra:
+    image: cassandra
+    container_name: cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: ${CASSANDRA_CLUSTER_NAME}
+      CASSANDRA_NUM_TOKENS: 16
+      CASSANDRA_RPC_ADDRESS: 0.0.0.0
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./data/cassandra:/var/lib/cassandra
+      - ./databases/cassandra/service/init.cql:/docker-entrypoint-initdb.d/init.cql # Başlangıç betiği
+    networks:
+      - backend
+
+  # ClickHouse
+  clickhouse:
+    image: yandex/clickhouse-server
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+      - "9001:9000" # Port çakışmasını önlemek için 9000 yerine 9001
+    volumes:
+      - ./data/clickhouse:/var/lib/clickhouse
+      - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql # Başlangıç betiği
+    networks:
+      - backend
+
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - backend
+
+  # InfluxDB
   influxdb:
     image: influxdb
     container_name: influxdb
@@ -42,56 +99,64 @@ services:
       INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
       INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
     volumes:
-      - ./databases/influxdb:/var/lib/influxdb
+      - ./data/influxdb:/var/lib/influxdb
     networks:
       - backend
 
-
-  # Cassandra
-  cassandra:
-    image: cassandra
-    container_name: cassandra
-    ports:
-      - "9042:9042"
-    environment:
-      CASSANDRA_CLUSTER_NAME: ${CASSANDRA_CLUSTER_NAME}
-      CASSANDRA_NUM_TOKENS: 16
-      CASSANDRA_RPC_ADDRESS: 0.0.0.0
-    volumes:
-      - ./databases/cassandra:/var/lib/cassandra
-      - ./databases/cassandra/init.cql:/docker-entrypoint-initdb.d/init.cql  # Başlangıç betiği
-    networks:
-      - backend
-
-      
   # Elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Bellek ayarı
     ports:
       - "9200:9200"
       - "9300:9300"
     networks:
       - backend
 
- 
-  # ClickHouse
-  clickhouse:
-    image: yandex/clickhouse-server
-    container_name: clickhouse
+  # Neo4j
+  neo4j:
+    image: neo4j:4.4
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
     ports:
-      - "8123:8123"
-      - "9000:9000"
+      - "7474:7474" # Neo4j Browser UI
+      - "7687:7687" # Bolt Protocol Port
     volumes:
-      - ./databases/clickhouse:/var/lib/clickhouse
-      - ./databases/clickhouse/init.sql:/docker-entrypoint-initdb.d/init.sql  # Başlangıç betiği
+      - ./data/neo4j:/data
     networks:
       - backend
 
+  # HDFS (Hadoop NameNode)
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    environment:
+      - CLUSTER_NAME=hadoop
+    ports:
+      - "9870:9870" # Namenode Web UI
+      - "9000:9000"
+    volumes:
+      - ./data/hdfs:/hadoop/dfs/name
+    networks:
+      - backend
 
-
+  # CouchDB
+  couchdb:
+    image: couchdb:latest
+    container_name: couchdb
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - ./data/couchdb:/opt/couchdb/data
+    networks:
+      - backend
 
 networks:
   backend:

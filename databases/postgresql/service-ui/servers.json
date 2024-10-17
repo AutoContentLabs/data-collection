@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "data collection server",
+            "Group": "Development server group",
+            "Port": 5432,
+            "Username": "postgresadmin",
+            "Host": "postgresql",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "trends_db"
+        }
+    }
+}
