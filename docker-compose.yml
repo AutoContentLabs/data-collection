@@ -1,10 +1,39 @@
-
 services:
+  # Adminer
+  # MySQL
+  # SQLite 3
+  # SQLite 2
+  # PostgreSQL
+  # Oracle (beta)
+  # MS SQL (beta)
+  # MongoDB (alpha)
+  # Elasticsearch (beta)
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - backend
+
+  # MySQL
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./databases/mysql/service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
 
   # MongoDB
   mongodb:
     image: mongo
-    container_name: mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -19,7 +48,6 @@ services:
   # PostgreSQL
   postgresql:
     image: postgres
-    container_name: postgresql
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -33,11 +61,10 @@ services:
       - backend
 
   # PostgreSQL UI (pgAdmin)
-  postgresql-ui:
+  postgresql_ui:
     image: dpage/pgadmin4
-    container_name: pgadmin4
     ports:
-      - "10304:80"
+      - "8082:10304"
     volumes:
       - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
     environment:
@@ -51,7 +78,6 @@ services:
   # Cassandra
   cassandra:
     image: cassandra
-    container_name: cassandra
     environment:
       CASSANDRA_CLUSTER_NAME: ${CASSANDRA_CLUSTER_NAME}
       CASSANDRA_NUM_TOKENS: 16
@@ -67,7 +93,6 @@ services:
   # ClickHouse
   clickhouse:
     image: yandex/clickhouse-server
-    container_name: clickhouse
     ports:
       - "8123:8123"
       - "9001:9000"
@@ -80,7 +105,6 @@ services:
   # Redis
   redis:
     image: redis:latest
-    container_name: redis
     ports:
       - "6379:6379"
     volumes:
@@ -91,7 +115,6 @@ services:
   # InfluxDB
   influxdb:
     image: influxdb
-    container_name: influxdb
     ports:
       - "8086:8086"
     environment:
@@ -106,7 +129,6 @@ services:
   # Elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    container_name: elasticsearch
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
@@ -119,7 +141,6 @@ services:
   # Neo4j
   neo4j:
     image: neo4j:4.4
-    container_name: neo4j
     environment:
       - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
     ports:
@@ -133,7 +154,6 @@ services:
   # HDFS (Hadoop NameNode)
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
-    container_name: namenode
     environment:
       - CLUSTER_NAME=hadoop
     ports:
@@ -147,7 +167,6 @@ services:
   # CouchDB
   couchdb:
     image: couchdb:latest
-    container_name: couchdb
     ports:
       - "5984:5984"
     environment:

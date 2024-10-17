@@ -4,20 +4,40 @@ This project uses a variety of databases, each selected to fulfill specific role
 
 ## Database Summary
 
-| Database     | Purpose                                                                 | Initialization Script                |
-|--------------|-------------------------------------------------------------------------|--------------------------------------|
-| **MongoDB**  | Storing unstructured and semi-structured data such as social media API and trend data. | `./databases/mongodb/service/init.js` |
-| **PostgreSQL** | Structured data for detailed trend analysis and structured data queries. | `./databases/postgresql/service/init.pgsql` |
-| **Cassandra** | Large-scale distributed data storage for handling vast datasets with high availability. | `./databases/cassandra/service/init.cql` |
-| **ClickHouse** | Fast and efficient large-scale data analytics and reporting.           | `./databases/clickhouse/service/init.sql` |
-| **Redis**     | Caching and fast data retrieval to optimize real-time queries.          | N/A                                  |
-| **InfluxDB**  | Storing and analyzing time-series data such as social media engagement trends. | N/A                                  |
-| **Elasticsearch** | Full-text search engine for trend and content recommendation systems. | N/A                                  |
-| **Neo4j**     | Graph database for complex relationship and network analysis.           | N/A                                  |
-| **HDFS (Hadoop)** | Distributed storage system for large datasets and historical data processing. | N/A                                  |
-| **CouchDB**   | Document-based NoSQL database for flexible JSON-based data storage.     | N/A                                  |
+| Database          | Purpose                                                                                 | Initialization Script                       |
+| ----------------- | --------------------------------------------------------------------------------------- | ------------------------------------------- |
+| **MySQL**         | Relational database for storing user information and application settings.              | `./databases/mysql/service/init.sql`        |
+| **MongoDB**       | Storing unstructured and semi-structured data such as social media API and trend data.  | `./databases/mongodb/service/init.js`       |
+| **PostgreSQL**    | Structured data for detailed trend analysis and structured data queries.                | `./databases/postgresql/service/init.pgsql` |
+| **Cassandra**     | Large-scale distributed data storage for handling vast datasets with high availability. | `./databases/cassandra/service/init.cql`    |
+| **ClickHouse**    | Fast and efficient large-scale data analytics and reporting.                            | `./databases/clickhouse/service/init.sql`   |
+| **Redis**         | Caching and fast data retrieval to optimize real-time queries.                          | N/A                                         |
+| **InfluxDB**      | Storing and analyzing time-series data such as social media engagement trends.          | N/A                                         |
+| **Elasticsearch** | Full-text search engine for trend and content recommendation systems.                   | N/A                                         |
+| **Neo4j**         | Graph database for complex relationship and network analysis.                           | N/A                                         |
+| **HDFS (Hadoop)** | Distributed storage system for large datasets and historical data processing.           | N/A                                         |
+| **CouchDB**       | Document-based NoSQL database for flexible JSON-based data storage.                     | N/A                                         |
 
 ---
+
+## MySQL
+
+- **Purpose**: MySQL is used for storing user-related information and application settings, allowing for quick access and modifications.
+- **Initialization**: The database is initialized with `init.sql`, which creates the necessary tables and relationships.
+- **Data Schema**:
+  - Table: `data_sources`
+
+    - **Columns**:
+
+      - `source_id INT AUTO_INCREMENT PRIMARY KEY`,
+      - `source_name VARCHAR(255) NOT NULL`,
+      - `source_url TEXT NOT NULL`,
+      - `category_id INT NOT NULL`,
+      - `data_type_id INT NOT NULL`,
+      - `access_method_id INT NOT NULL`,
+      - `reliability_id INT NOT NULL`,
+      - `freshness_id INT NOT NULL`,
+      - `created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`,
 
 ## MongoDB
 
