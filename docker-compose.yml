@@ -1,20 +1,4 @@
 services:
-  # Adminer
-  # MySQL
-  # SQLite 3
-  # SQLite 2
-  # PostgreSQL
-  # Oracle (beta)
-  # MS SQL (beta)
-  # MongoDB (alpha)
-  # Elasticsearch (beta)
-  adminer:
-    image: adminer
-    ports:
-      - "8081:8080"
-    networks:
-      - backend
-
   # MySQL
   mysql:
     image: mysql:latest
@@ -31,6 +15,17 @@ services:
     networks:
       - backend
 
+  # MySQL UI (phpMyAdmin)
+  mysql_ui:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8081:80"
+    networks:
+      - backend
+
   # MongoDB
   mongodb:
     image: mongo
@@ -42,6 +37,19 @@ services:
     volumes:
       - ./data/mongodb:/data/db
       - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - backend
+
+  # MongoDB UI (Mongo Express)
+  mongodb_ui:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMIN_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMIN_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "8082:8081"
     networks:
       - backend
 
@@ -64,7 +72,7 @@ services:
   postgresql_ui:
     image: dpage/pgadmin4
     ports:
-      - "8082:10304"
+      - "8083:80"
     volumes:
       - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
     environment:
@@ -77,30 +85,60 @@ services:
 
   # Cassandra
   cassandra:
-    image: cassandra
+    image: cassandra:latest
     environment:
-      CASSANDRA_CLUSTER_NAME: ${CASSANDRA_CLUSTER_NAME}
-      CASSANDRA_NUM_TOKENS: 16
-      CASSANDRA_RPC_ADDRESS: 0.0.0.0
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_DC=DC1
+      - CASSANDRA_RACK=Rack1
+      - CASSANDRA_STORAGE_TYPE=cassandra # If this is a valid configuration option      
     ports:
       - "9042:9042"
-    volumes:
-      - ./data/cassandra:/var/lib/cassandra
-      - ./databases/cassandra/service/init.cql:/docker-entrypoint-initdb.d/init.cql
     networks:
       - backend
 
+  # Cassandra UI - ???
+  # cassandra-ui:
+  #   image: thelastpickle/cassandra-reaper:latest
+  #   environment:
+  #     - REAPER_JMX_AUTH_USERNAME=reaperUser
+  #     - REAPER_JMX_AUTH_PASSWORD=reaperPass
+  #     - REAPER_STORAGE_TYPE=cassandra
+  #     - REAPER_CASS_CLUSTER_NAME=reaper-cluster
+  #     - REAPER_CASS_CONTACT_POINTS=cassandra # Updated to use a valid setting for the UI
+  #     - REAPER_CASS_KEYSPACE=reaper_db
+  #     - REAPER_AUTO_SCHEDULING_ENABLED=true
+  #   ports:
+  #     - "8098:8080"
+  #     - "8099:8081"
+  #   networks:
+  #     - backend
+  #   depends_on:
+  #     - cassandra
+
   # ClickHouse
   clickhouse:
-    image: yandex/clickhouse-server
+    image: clickhouse/clickhouse-server
     ports:
+      - "9000:9000"
       - "8123:8123"
-      - "9001:9000"
+
     volumes:
       - ./data/clickhouse:/var/lib/clickhouse
       - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
+
+  # ClickHouse UI (ClickHouse Client) ???
+  # clickhouse_ui:
+  #   image: clickhouse/clickhouse-client
+  #   ports:
+  #     - "8085:8123"
+  #   environment:
+  #     CLICKHOUSE_HOST: clickhouse # Use the service name      
+  #   networks:
+  #     - backend
+  #   depends_on:
+  #     - clickhouse
 
   # Redis
   redis:
@@ -109,6 +147,16 @@ services:
       - "6379:6379"
     volumes:
       - ./data/redis:/data
+    networks:
+      - backend
+
+  # Redis UI (Redis Commander)
+  redis_ui:
+    image: rediscommander/redis-commander
+    ports:
+      - "8087:8081"
+    environment:
+      REDIS_HOSTS: "local:redis:6379"
     networks:
       - backend
 
@@ -126,6 +174,14 @@ services:
     networks:
       - backend
 
+  # InfluxDB UI (Chronograf)
+  chronograf:
+    image: chronograf
+    ports:
+      - "8888:8888"
+    networks:
+      - backend
+
   # Elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
@@ -135,6 +191,14 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - backend
+
+  # Elasticsearch UI (Kibana)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.1
+    ports:
+      - "5601:5601"
     networks:
       - backend
 
@@ -148,19 +212,6 @@ services:
       - "7687:7687" # Bolt Protocol Port
     volumes:
       - ./data/neo4j:/data
-    networks:
-      - backend
-
-  # HDFS (Hadoop NameNode)
-  namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
-    environment:
-      - CLUSTER_NAME=hadoop
-    ports:
-      - "9870:9870" # Namenode Web UI
-      - "9000:9000"
-    volumes:
-      - ./data/hdfs:/hadoop/dfs/name
     networks:
       - backend
 
