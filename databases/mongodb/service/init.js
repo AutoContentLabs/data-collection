@@ -1,4 +1,4 @@
-db = db.getSiblingDB('mydatabase');  // Veritabanı oluştur veya seç
+db = db.getSiblingDB('trends_db');  // Veritabanı oluştur veya seç
 db.createCollection('trend_data');  // Koleksiyon oluştur
 
 db.trend_data.insertMany([
