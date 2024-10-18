@@ -1,4 +1,5 @@
-INSERT INTO categories (category_name,category_description) VALUES
+-- Kategoriler Ekleme
+INSERT INTO categories (category_name, category_description) VALUES
 ('The Universe and Natural World', 'Topics related to the cosmos, space, and Earth sciences.'),
 ('Human Society and Culture', 'Topics related to history, politics, economics, and culture.'),
 ('Technology and Innovation', 'Topics related to IT, engineering, and inventions.'),

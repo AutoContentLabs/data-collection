@@ -1,7 +1,5 @@
--- "The Universe and Natural World" kategorisinin ID'sini bulalım
-SELECT category_id FROM categories WHERE category_name = 'The Universe and Natural World';
-
--- "The Universe and Natural World" (category_id = 1) için:
+-- Alt Kategoriler Ekleniyor
+-- "The Universe and Natural World" kategorisi için alt kategoriler
 INSERT INTO subcategories (subcategory_name, category_id) VALUES
 ('Cosmos and Space', 1),
 ('Galaxies', 1),
@@ -15,10 +13,7 @@ INSERT INTO subcategories (subcategory_name, category_id) VALUES
 ('Meteorology', 1),
 ('Ecology', 1);
 
--- "Human Society and Culture" kategorisinin ID'sini bulalım
-SELECT category_id FROM categories WHERE category_name = 'Human Society and Culture';
-
--- "Human Society and Culture" (category_id = 2) için:
+-- "Human Society and Culture" kategorisi için alt kategoriler
 INSERT INTO subcategories (subcategory_name, category_id) VALUES
 ('History', 2),
 ('Ancient History', 2),
@@ -28,9 +23,6 @@ INSERT INTO subcategories (subcategory_name, category_id) VALUES
 ('Religion and Belief Systems', 2),
 ('Law and Order', 2);
 
--- "Technology and Innovation" kategorisinin ID'sini bulalım
-SELECT category_id FROM categories WHERE category_name = 'Technology and Innovation';
-
--- "Technology and Innovation" (category_id = 3) için:
+-- "Technology and Innovation" kategorisi için alt kategoriler
 INSERT INTO subcategories (subcategory_name, category_id) VALUES
 ('AI', 3);
