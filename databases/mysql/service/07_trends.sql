@@ -20,6 +20,10 @@ CREATE TABLE trends (
     
     -- Trend verileri (örn. ilgili anahtar kelimeler, arama hacmi)
     trend_data JSON NOT NULL,
+
+    -- Her trendin zaman içindeki değişimi için trendlerin başlangıç ve bitiş tarihleri
+    start_date DATE,
+    end_date DATE,
     
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -31,20 +35,4 @@ CREATE TABLE trends (
     -- Alt Kategori ile ilişkilendirme
     FOREIGN KEY (subcategory_id) REFERENCES subcategories(subcategory_id)
     );
-
--- Trendler
-INSERT INTO trends (source_id, category_id, subcategory_id, trend_title, trend_description, trend_data) VALUES
-(
-    -- kaynak id
-    1,
-    -- kategori id
-    3,
-    -- alt kategori
-    1 ,
-    -- trend başlığı
-    'AI in Healthcare',
-    -- trend açıklaması
-    'Exploring the impact of AI technologies in the healthcare industry.',
-    -- trend data -- JSON formatında veriler
-    JSON_OBJECT('keywords', JSON_ARRAY('AI', 'Healthcare', 'Machine Learning'), 'search_volume', 10000)  
-);
+    
