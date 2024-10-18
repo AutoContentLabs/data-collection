@@ -58,67 +58,19 @@ CREATE TABLE data_sources (
 );
 
 -- 7. Örnek Veri Ekleme: Kategoriler
-INSERT INTO categories (category_name, description) VALUES
-    ('News', 'Sources providing news updates'),
-    ('Social Media', 'Data from social media platforms'),
-    ('Trends', 'Trending topics from various platforms'),
-    ('Finance', 'Financial and economic data'),
-    ('Entertainment', 'Movies, TV shows, and other entertainment data'),
-    ('Technology & Science', 'Technological and scientific information'),
-    ('Health & Medicine', 'Health-related data and medical research'),
-    ('Sports', 'Sports updates and news'),
-    ('E-commerce & Products', 'Product trends from e-commerce platforms'),
-    ('Education & Research', 'Data for education and research purposes');
+-- SOURCE /docker-entrypoint-initdb.d/categories.sql;
 
 -- 8. Örnek Veri Ekleme: Veri Tipleri
-INSERT INTO data_types (data_type, description) VALUES
-    ('API', 'Application Programming Interface'),
-    ('RSS', 'Really Simple Syndication'),
-    ('Web', 'Web scraping or web-based data');
+-- SOURCE /docker-entrypoint-initdb.d/data_types.sql;
 
 -- 9. Örnek Veri Ekleme: Erişim Yöntemleri
-INSERT INTO access_methods (method_name, description) VALUES
-    ('Free', 'No cost access'),
-    ('Paid', 'Requires subscription or payment');
+-- SOURCE /docker-entrypoint-initdb.d/access_methods.sql;
 
 -- 10. Örnek Veri Ekleme: Güvenilirlik Seviyeleri
-INSERT INTO reliability_levels (level, description) VALUES
-    ('High', 'Reliable source with verified data'),
-    ('Medium', 'Moderately reliable source'),
-    ('Low', 'Source with low credibility');
+-- SOURCE /docker-entrypoint-initdb.d/reliability_levels.sql;
 
 -- 11. Örnek Veri Ekleme: Güncellik Seviyeleri
-INSERT INTO freshness_levels (freshness, description) VALUES
-    ('Continuous', 'Updated continuously'),
-    ('Daily', 'Updated daily'),
-    ('Weekly', 'Updated weekly');
+-- SOURCE /docker-entrypoint-initdb.d/freshness_levels.sql;
 
 -- 12. Örnek Veri Ekleme: Veri Kaynakları
-INSERT INTO data_sources (source_name, source_url, category_id, data_type_id, access_method_id, reliability_id, freshness_id) VALUES
-    ('BBC News', 'https://feeds.bbci.co.uk/news/rss.xml', 
-    (SELECT category_id FROM categories WHERE category_name = 'News'),
-    (SELECT data_type_id FROM data_types WHERE data_type = 'RSS'),
-    (SELECT access_method_id FROM access_methods WHERE method_name = 'Free'),
-    (SELECT reliability_id FROM reliability_levels WHERE level = 'High'),
-    (SELECT freshness_id FROM freshness_levels WHERE freshness = 'Daily')),
-
-    ('CoinGecko', 'https://www.coingecko.com/', 
-    (SELECT category_id FROM categories WHERE category_name = 'Finance'),
-    (SELECT data_type_id FROM data_types WHERE data_type = 'API'),
-    (SELECT access_method_id FROM access_methods WHERE method_name = 'Free'),
-    (SELECT reliability_id FROM reliability_levels WHERE level = 'High'),
-    (SELECT freshness_id FROM freshness_levels WHERE freshness = 'Continuous')),
-
-    ('YouTube Trending', 'https://www.youtube.com/feed/trending', 
-    (SELECT category_id FROM categories WHERE category_name = 'Social Media'),
-    (SELECT data_type_id FROM data_types WHERE data_type = 'Web'),
-    (SELECT access_method_id FROM access_methods WHERE method_name = 'Free'),
-    (SELECT reliability_id FROM reliability_levels WHERE level = 'Medium'),
-    (SELECT freshness_id FROM freshness_levels WHERE freshness = 'Daily')),
-
-    ('Amazon Bestsellers', 'https://www.amazon.com/', 
-    (SELECT category_id FROM categories WHERE category_name = 'E-commerce & Products'),
-    (SELECT data_type_id FROM data_types WHERE data_type = 'Web'),
-    (SELECT access_method_id FROM access_methods WHERE method_name = 'Free'),
-    (SELECT reliability_id FROM reliability_levels WHERE level = 'High'),
-    (SELECT freshness_id FROM freshness_levels WHERE freshness = 'Weekly'));
+-- SOURCE /docker-entrypoint-initdb.d/data_sources.sql;
