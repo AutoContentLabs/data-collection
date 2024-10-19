@@ -83,6 +83,14 @@ python app.py
 └── README.md              # This file
 ```
 
+## Development
+
+If you want to save all the installed libraries in your current environment to requirements.txt, you can use the following command:
+
+```
+pip freeze > requirements.txt
+```
+
 ## Contributing
 
 We welcome all contributions! Please open an issue or submit a suggestion before making changes.

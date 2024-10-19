@@ -1,0 +1,28 @@
+{
+    "name": "data-collection",
+    "version": "1.0.0",
+    "description": "This project is an application that utilizes both Node.js and Python to provide various functionalities. Users can leverage the strengths of both languages to develop a powerful and flexible system.",
+    "main": "src/api",
+    "dependencies": {
+      "axios": "^1.7.7",
+      "mongodb": "^6.9.0",
+      "mysql2": "^3.11.3",
+      "pg": "^8.13.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "start": "node src/api"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/AutoContentLabs/data-collection.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/AutoContentLabs/data-collection/issues"
+    },
+    "homepage": "https://github.com/AutoContentLabs/data-collection#readme"
+  }
+  
