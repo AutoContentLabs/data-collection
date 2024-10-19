@@ -1,0 +1,1 @@
+// Veri Biçiminin Kontrolü ve İşlenmesi 
