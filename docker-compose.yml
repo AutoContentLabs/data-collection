@@ -46,7 +46,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_HOST_PORT}/
       ME_CONFIG_BASICAUTH: false
     ports:
       - "8082:8081"
@@ -59,12 +59,12 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
     ports:
       - "5432:5432"
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
-      - ./databases/postgresql/service/init.pgsql:/docker-entrypoint-initdb.d/init.sql
+      - ./databases/postgresql/service/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
 

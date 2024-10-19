@@ -7,7 +7,7 @@
             "Username": "postgresadmin",
             "Host": "postgresql",
             "SSLMode": "prefer",
-            "MaintenanceDB": "trends_db"
+            "MaintenanceDB": "trend_db"
         }
     }
 }
