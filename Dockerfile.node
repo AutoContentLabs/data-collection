@@ -1,0 +1,23 @@
+# Build aşaması
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Paket dosyalarını kopyala ve bağımlılıkları yükle
+COPY package*.json ./
+RUN npm install
+
+# Uygulama dosyalarını kopyala
+COPY . .
+
+# Final aşaması
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Build aşamasından kopyala
+COPY --from=build /app ./
+
+# Uygulamanın başlatma komutu
+# CMD ["node", "src/api/data_collection.js"]
+# Uygulama her 1 dakikada bir çalıştırılıyor

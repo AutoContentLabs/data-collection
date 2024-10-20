@@ -14,19 +14,24 @@ services:
             - ./databases/mysql/service/:/docker-entrypoint-initdb.d/
         networks:
             - backend
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     # MySQL UI (phpMyAdmin)
-    mysql_ui:
-        image: phpmyadmin/phpmyadmin
-        environment:
-            PMA_HOST: mysql
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        ports:
-            - "8081:80"
-        networks:
-            - backend
-        depends_on:
-            - mysql
+    # mysql_ui:
+    #     image: phpmyadmin/phpmyadmin
+    #     environment:
+    #         PMA_HOST: mysql
+    #         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    #     ports:
+    #         - "8081:80"
+    #     networks:
+    #         - backend
+    #     depends_on:
+    #         - mysql
 
     # MongoDB
     mongo:
@@ -41,21 +46,26 @@ services:
             - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js
         networks:
             - backend
+        healthcheck:
+            test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     # MongoDB UI (Mongo Express)
-    mongo_ui:
-        image: mongo-express
-        environment:
-            ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-            ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_HOST_PORT}/
-            ME_CONFIG_BASICAUTH: false
-        ports:
-            - "8082:8081"
-        networks:
-            - backend
-        depends_on:
-            - mongo
+    # mongo_ui:
+    #     image: mongo-express
+    #     environment:
+    #         ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+    #         ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    #         ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_HOST_PORT}/
+    #         ME_CONFIG_BASICAUTH: false
+    #     ports:
+    #         - "8082:8081"
+    #     networks:
+    #         - backend
+    #     depends_on:
+    #         - mongo
 
     # PostgreSQL
     postgresql:
@@ -71,21 +81,26 @@ services:
             - ./databases/postgresql/service/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - backend
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     # PostgreSQL UI (pgAdmin)
-    postgresql_ui:
-        image: dpage/pgadmin4
-        ports:
-            - "8083:80"
-        volumes:
-            - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
-        environment:
-            PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
-            PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
-        networks:
-            - backend
-        depends_on:
-            - postgresql
+    # postgresql_ui:
+    #     image: dpage/pgadmin4
+    #     ports:
+    #         - "8083:80"
+    #     volumes:
+    #         - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
+    #     environment:
+    #         PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
+    #         PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+    #     networks:
+    #         - backend
+    #     depends_on:
+    #         - postgresql
 
     # Cassandra
     # cassandra:
@@ -233,12 +248,12 @@ services:
     #         - backend
 
     # Data Collection
-    data-collection:
+    data-collection-python:
         build:
             context: .
-            dockerfile: Dockerfile
-        volumes:
-            - .:/app
+            dockerfile: Dockerfile.python
+        # volumes:
+        #     - .:/app
         env_file:
             - .env
         networks:
@@ -248,7 +263,24 @@ services:
             - mongo
             - postgresql
         command: >
-            sh -c "while true; do python src/api/data_collection.py; sleep 300; done"
+            sh -c "while true; do python src/api/data_collection.py; sleep ${SLEEP_DURATION}; done"
+
+    data-collection-node:
+        build:
+            context: .
+            dockerfile: Dockerfile.node
+        # volumes:
+        #     - .:/app
+        env_file:
+            - .env
+        networks:
+            - backend
+        depends_on:
+            - mysql
+            - mongo
+            - postgresql
+        command: >
+            sh -c "while true; do node src/api/data_collection.js; sleep ${SLEEP_DURATION}; done"          
 
 networks:
     backend:

@@ -1,0 +1,36 @@
+# Build aşaması
+FROM python:3.12 AS build
+
+# Çalışma dizinini ayarla
+WORKDIR /app
+
+# Gerekli sistem kütüphanelerini yükle
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Gereksinimleri kopyala ve yükle
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Uygulama dosyalarını kopyala
+COPY . .
+
+# Final aşaması
+FROM python:3.12-slim
+
+# Çalışma dizinini ayarla
+WORKDIR /app
+
+# Gerekli sistem kütüphanelerini yükle
+RUN apt-get update && apt-get install -y \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Yüklenen bağımlılıkları kopyala
+COPY --from=build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=build /app /app
+
+# Uygulamanın başlatma komutu
+# CMD ["python", "src/api/data_collection.py"]
+# Uygulama her 1 dakikada bir docker compose ile çalıştırılıyor

@@ -1,5 +1,4 @@
 # Node.js modülleri
-node_modules
 npm-debug.log
 
 # Veri klasörleri
@@ -17,3 +16,4 @@ __pycache__/
 # Diğer geçici dosyalar
 .DS_Store
 .env
+.venv

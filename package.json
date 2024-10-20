@@ -1,14 +1,16 @@
 {
     "name": "data-collection",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "This project is an application that utilizes both Node.js and Python to provide various functionalities. Users can leverage the strengths of both languages to develop a powerful and flexible system.",
-    "main": "src/api",
+    "main": "src/api/data_collection",
     "dependencies": {
         "axios": "^1.7.7",
         "dotenv": "^16.4.5",
+        "loglevel": "^1.9.2",
         "mongodb": "^6.9.0",
         "mysql2": "^3.11.3",
-        "pg": "^8.13.0"
+        "pg": "^8.13.0",
+        "simple-node-logger": "^21.8.12"
     },
     "scripts": {
         "start": "node src/api/data_collection"
