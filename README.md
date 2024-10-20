@@ -6,54 +6,55 @@ This project is an application that utilizes both Node.js and Python to provide 
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Directory Structure](#directory-structure)
-- [Contributing](#contributing)
-- [License](#license)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Directory Structure](#directory-structure)
+-   [Contributing](#contributing)
+-   [License](#license)
 
 ## Installation
 
 ### Requirements
 
-- Node.js (v14 or higher)
-- Python (v3.6 or higher)
+-   Node.js (v14 or higher)
+-   Python (v3.6 or higher)
 
 ### Node.js Installation
 
 1. Navigate to the project directory:
-   ```bash
-   cd project-directory
-   npm install
-   ```
+    ```bash
+    cd project-directory
+    npm install
+    ```
 2. Install the necessary packages
-   ```
-   npm install
-   ```
+    ```
+    npm install
+    ```
 
 ### Python Installation
 
 1. Create a virtual environment:
 
-   ```
-   python -m venv venv
-   ```
+    ```
+    python -m venv venv
+    ```
 
 2. Activate the virtual environment:
 
-- Windows:
-  ```
-  venv\Scripts\activate
-  ```
-- MacOS/Linux:
-  ```
-  source venv/bin/activate
-  ```
+-   Windows:
+    ```
+    venv\Scripts\activate
+    ```
+-   MacOS/Linux:
+    ```
+    source venv/bin/activate
+    ```
 
 3. Install the required Python packages:
-   ```
-   pip install -r requirements.txt
-   ```
+    ```
+    pip install -e .
+    pip install -r requirements.txt
+    ```
 
 ## Usage
 

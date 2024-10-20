@@ -1,233 +1,233 @@
 services:
-  # MySQL
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-      - ./databases/mysql/service/:/docker-entrypoint-initdb.d/
-    networks:
-      - backend
+    # MySQL
+    mysql:
+        image: mysql:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+            - ./databases/mysql/service/:/docker-entrypoint-initdb.d/
+        networks:
+            - backend
 
-  # MySQL UI (phpMyAdmin)
-  mysql_ui:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "8081:80"
-    networks:
-      - backend
+    # MySQL UI (phpMyAdmin)
+    mysql_ui:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "8081:80"
+        networks:
+            - backend
 
-  # MongoDB
-  mongo:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data/mongodb:/data/db
-      - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js
-    networks:
-      - backend
+    # MongoDB
+    mongo:
+        image: mongo
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data/mongodb:/data/db
+            - ./databases/mongodb/service/init.js:/docker-entrypoint-initdb.d/mongo-init.js
+        networks:
+            - backend
 
-  # MongoDB UI (Mongo Express)
-  mongodb_ui:
-    image: mongo-express
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_HOST_PORT}/
-      ME_CONFIG_BASICAUTH: false
-    ports:
-      - "8082:8081"
-    networks:
-      - backend
+    # MongoDB UI (Mongo Express)
+    mongodb_ui:
+        image: mongo-express
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_HOST_PORT}/
+            ME_CONFIG_BASICAUTH: false
+        ports:
+            - "8082:8081"
+        networks:
+            - backend
 
-  # PostgreSQL
-  postgresql:
-    image: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB_NAME}
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./data/postgresql:/var/lib/postgresql/data
-      - ./databases/postgresql/service/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - backend
+    # PostgreSQL
+    postgresql:
+        image: postgres
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB_NAME}
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./data/postgresql:/var/lib/postgresql/data
+            - ./databases/postgresql/service/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - backend
 
-  # PostgreSQL UI (pgAdmin)
-  postgresql_ui:
-    image: dpage/pgadmin4
-    ports:
-      - "8083:80"
-    volumes:
-      - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
-      PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
-    depends_on:
-      - postgresql
-    networks:
-      - backend
+    # PostgreSQL UI (pgAdmin)
+    postgresql_ui:
+        image: dpage/pgadmin4
+        ports:
+            - "8083:80"
+        volumes:
+            - ./databases/postgresql/service-ui/servers.json:/pgadmin4/servers.json
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
+            PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+        depends_on:
+            - postgresql
+        networks:
+            - backend
 
-  # Cassandra
-  cassandra:
-    image: cassandra:latest
-    environment:
-      - CASSANDRA_CLUSTER_NAME=MyCluster
-      - CASSANDRA_DC=DC1
-      - CASSANDRA_RACK=Rack1
-      - CASSANDRA_STORAGE_TYPE=cassandra # If this is a valid configuration option      
-    ports:
-      - "9042:9042"
-    networks:
-      - backend
+    # Cassandra
+    cassandra:
+        image: cassandra:latest
+        environment:
+            - CASSANDRA_CLUSTER_NAME=MyCluster
+            - CASSANDRA_DC=DC1
+            - CASSANDRA_RACK=Rack1
+            - CASSANDRA_STORAGE_TYPE=cassandra # If this is a valid configuration option      
+        ports:
+            - "9042:9042"
+        networks:
+            - backend
 
-  # Cassandra UI - ???
-  # cassandra-ui:
-  #   image: thelastpickle/cassandra-reaper:latest
-  #   environment:
-  #     - REAPER_JMX_AUTH_USERNAME=reaperUser
-  #     - REAPER_JMX_AUTH_PASSWORD=reaperPass
-  #     - REAPER_STORAGE_TYPE=cassandra
-  #     - REAPER_CASS_CLUSTER_NAME=reaper-cluster
-  #     - REAPER_CASS_CONTACT_POINTS=cassandra # Updated to use a valid setting for the UI
-  #     - REAPER_CASS_KEYSPACE=reaper_db
-  #     - REAPER_AUTO_SCHEDULING_ENABLED=true
-  #   ports:
-  #     - "8098:8080"
-  #     - "8099:8081"
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - cassandra
+    # Cassandra UI - ???
+    # cassandra-ui:
+    #   image: thelastpickle/cassandra-reaper:latest
+    #   environment:
+    #     - REAPER_JMX_AUTH_USERNAME=reaperUser
+    #     - REAPER_JMX_AUTH_PASSWORD=reaperPass
+    #     - REAPER_STORAGE_TYPE=cassandra
+    #     - REAPER_CASS_CLUSTER_NAME=reaper-cluster
+    #     - REAPER_CASS_CONTACT_POINTS=cassandra # Updated to use a valid setting for the UI
+    #     - REAPER_CASS_KEYSPACE=reaper_db
+    #     - REAPER_AUTO_SCHEDULING_ENABLED=true
+    #   ports:
+    #     - "8098:8080"
+    #     - "8099:8081"
+    #   networks:
+    #     - backend
+    #   depends_on:
+    #     - cassandra
 
-  # ClickHouse
-  clickhouse:
-    image: clickhouse/clickhouse-server
-    ports:
-      - "9000:9000"
-      - "8123:8123"
+    # ClickHouse
+    clickhouse:
+        image: clickhouse/clickhouse-server
+        ports:
+            - "9000:9000"
+            - "8123:8123"
 
-    volumes:
-      - ./data/clickhouse:/var/lib/clickhouse
-      - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - backend
+        volumes:
+            - ./data/clickhouse:/var/lib/clickhouse
+            - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - backend
 
-  # ClickHouse UI (ClickHouse Client) ???
-  # clickhouse_ui:
-  #   image: clickhouse/clickhouse-client
-  #   ports:
-  #     - "8085:8123"
-  #   environment:
-  #     CLICKHOUSE_HOST: clickhouse # Use the service name      
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - clickhouse
+    # ClickHouse UI (ClickHouse Client) ???
+    # clickhouse_ui:
+    #   image: clickhouse/clickhouse-client
+    #   ports:
+    #     - "8085:8123"
+    #   environment:
+    #     CLICKHOUSE_HOST: clickhouse # Use the service name      
+    #   networks:
+    #     - backend
+    #   depends_on:
+    #     - clickhouse
 
-  # Redis
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./data/redis:/data
-    networks:
-      - backend
+    # Redis
+    redis:
+        image: redis:latest
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./data/redis:/data
+        networks:
+            - backend
 
-  # Redis UI (Redis Commander)
-  redis_ui:
-    image: rediscommander/redis-commander
-    ports:
-      - "8087:8081"
-    environment:
-      REDIS_HOSTS: "local:redis:6379"
-    networks:
-      - backend
+    # Redis UI (Redis Commander)
+    redis_ui:
+        image: rediscommander/redis-commander
+        ports:
+            - "8087:8081"
+        environment:
+            REDIS_HOSTS: "local:redis:6379"
+        networks:
+            - backend
 
-  # InfluxDB
-  influxdb:
-    image: influxdb
-    ports:
-      - "8086:8086"
-    environment:
-      INFLUXDB_DB: ${INFLUXDB_DB}
-      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
-      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
-    volumes:
-      - ./data/influxdb:/var/lib/influxdb
-    networks:
-      - backend
+    # InfluxDB
+    influxdb:
+        image: influxdb
+        ports:
+            - "8086:8086"
+        environment:
+            INFLUXDB_DB: ${INFLUXDB_DB}
+            INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+            INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+        volumes:
+            - ./data/influxdb:/var/lib/influxdb
+        networks:
+            - backend
 
-  # InfluxDB UI (Chronograf)
-  chronograf:
-    image: chronograf
-    ports:
-      - "8888:8888"
-    networks:
-      - backend
+    # InfluxDB UI (Chronograf)
+    chronograf:
+        image: chronograf
+        ports:
+            - "8888:8888"
+        networks:
+            - backend
 
-  # Elasticsearch
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    environment:
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - backend
+    # Elasticsearch
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+        environment:
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            - backend
 
-  # Elasticsearch UI (Kibana)
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
-    ports:
-      - "5601:5601"
-    networks:
-      - backend
+    # Elasticsearch UI (Kibana)
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.10.1
+        ports:
+            - "5601:5601"
+        networks:
+            - backend
 
-  # Neo4j
-  neo4j:
-    image: neo4j:4.4
-    environment:
-      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
-    ports:
-      - "7474:7474" # Neo4j Browser UI
-      - "7687:7687" # Bolt Protocol Port
-    volumes:
-      - ./data/neo4j:/data
-    networks:
-      - backend
+    # Neo4j
+    neo4j:
+        image: neo4j:4.4
+        environment:
+            - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
+        ports:
+            - "7474:7474" # Neo4j Browser UI
+            - "7687:7687" # Bolt Protocol Port
+        volumes:
+            - ./data/neo4j:/data
+        networks:
+            - backend
 
-  # CouchDB
-  couchdb:
-    image: couchdb:latest
-    ports:
-      - "5984:5984"
-    environment:
-      - COUCHDB_USER=${COUCHDB_USER}
-      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
-    volumes:
-      - ./data/couchdb:/opt/couchdb/data
-    networks:
-      - backend
+    # CouchDB
+    couchdb:
+        image: couchdb:latest
+        ports:
+            - "5984:5984"
+        environment:
+            - COUCHDB_USER=${COUCHDB_USER}
+            - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+        volumes:
+            - ./data/couchdb:/opt/couchdb/data
+        networks:
+            - backend
 
 networks:
-  backend:
-    driver: bridge
+    backend:
+        driver: bridge
