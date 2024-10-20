@@ -25,6 +25,8 @@ services:
             - "8081:80"
         networks:
             - backend
+        depends_on:
+            - mysql
 
     # MongoDB
     mongo:
@@ -41,7 +43,7 @@ services:
             - backend
 
     # MongoDB UI (Mongo Express)
-    mongodb_ui:
+    mongo_ui:
         image: mongo-express
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -52,6 +54,8 @@ services:
             - "8082:8081"
         networks:
             - backend
+        depends_on:
+            - mongo
 
     # PostgreSQL
     postgresql:
@@ -78,23 +82,23 @@ services:
         environment:
             PGADMIN_DEFAULT_EMAIL: "${POSTGRES_USER}@${DOMAIN}"
             PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+        networks:
+            - backend
         depends_on:
             - postgresql
-        networks:
-            - backend
 
     # Cassandra
-    cassandra:
-        image: cassandra:latest
-        environment:
-            - CASSANDRA_CLUSTER_NAME=MyCluster
-            - CASSANDRA_DC=DC1
-            - CASSANDRA_RACK=Rack1
-            - CASSANDRA_STORAGE_TYPE=cassandra # If this is a valid configuration option      
-        ports:
-            - "9042:9042"
-        networks:
-            - backend
+    # cassandra:
+    #     image: cassandra:latest
+    #     environment:
+    #         - CASSANDRA_CLUSTER_NAME=MyCluster
+    #         - CASSANDRA_DC=DC1
+    #         - CASSANDRA_RACK=Rack1
+    #         - CASSANDRA_STORAGE_TYPE=cassandra # If this is a valid configuration option      
+    #     ports:
+    #         - "9042:9042"
+    #     networks:
+    #         - backend
 
     # Cassandra UI - ???
     # cassandra-ui:
@@ -116,17 +120,17 @@ services:
     #     - cassandra
 
     # ClickHouse
-    clickhouse:
-        image: clickhouse/clickhouse-server
-        ports:
-            - "9000:9000"
-            - "8123:8123"
+    # clickhouse:
+    #     image: clickhouse/clickhouse-server
+    #     ports:
+    #         - "9000:9000"
+    #         - "8123:8123"
 
-        volumes:
-            - ./data/clickhouse:/var/lib/clickhouse
-            - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
-        networks:
-            - backend
+    #     volumes:
+    #         - ./data/clickhouse:/var/lib/clickhouse
+    #         - ./databases/clickhouse/service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    #     networks:
+    #         - backend
 
     # ClickHouse UI (ClickHouse Client) ???
     # clickhouse_ui:
@@ -141,92 +145,110 @@ services:
     #     - clickhouse
 
     # Redis
-    redis:
-        image: redis:latest
-        ports:
-            - "6379:6379"
-        volumes:
-            - ./data/redis:/data
-        networks:
-            - backend
+    # redis:
+    #     image: redis:latest
+    #     ports:
+    #         - "6379:6379"
+    #     volumes:
+    #         - ./data/redis:/data
+    #     networks:
+    #         - backend
 
     # Redis UI (Redis Commander)
-    redis_ui:
-        image: rediscommander/redis-commander
-        ports:
-            - "8087:8081"
-        environment:
-            REDIS_HOSTS: "local:redis:6379"
-        networks:
-            - backend
+    # redis_ui:
+    #     image: rediscommander/redis-commander
+    #     ports:
+    #         - "8087:8081"
+    #     environment:
+    #         REDIS_HOSTS: "local:redis:6379"
+    #     networks:
+    #         - backend
 
     # InfluxDB
-    influxdb:
-        image: influxdb
-        ports:
-            - "8086:8086"
-        environment:
-            INFLUXDB_DB: ${INFLUXDB_DB}
-            INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
-            INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
-        volumes:
-            - ./data/influxdb:/var/lib/influxdb
-        networks:
-            - backend
+    # influxdb:
+    #     image: influxdb
+    #     ports:
+    #         - "8086:8086"
+    #     environment:
+    #         INFLUXDB_DB: ${INFLUXDB_DB}
+    #         INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+    #         INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+    #     volumes:
+    #         - ./data/influxdb:/var/lib/influxdb
+    #     networks:
+    #         - backend
 
     # InfluxDB UI (Chronograf)
-    chronograf:
-        image: chronograf
-        ports:
-            - "8888:8888"
-        networks:
-            - backend
+    # chronograf:
+    #     image: chronograf
+    #     ports:
+    #         - "8888:8888"
+    #     networks:
+    #         - backend
 
     # Elasticsearch
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-        environment:
-            - discovery.type=single-node
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
-        ports:
-            - "9200:9200"
-            - "9300:9300"
-        networks:
-            - backend
+    # elasticsearch:
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    #     environment:
+    #         - discovery.type=single-node
+    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # Memory
+    #     ports:
+    #         - "9200:9200"
+    #         - "9300:9300"
+    #     networks:
+    #         - backend
 
     # Elasticsearch UI (Kibana)
-    kibana:
-        image: docker.elastic.co/kibana/kibana:7.10.1
-        ports:
-            - "5601:5601"
-        networks:
-            - backend
+    # kibana:
+    #     image: docker.elastic.co/kibana/kibana:7.10.1
+    #     ports:
+    #         - "5601:5601"
+    #     networks:
+    #         - backend
 
     # Neo4j
-    neo4j:
-        image: neo4j:4.4
-        environment:
-            - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
-        ports:
-            - "7474:7474" # Neo4j Browser UI
-            - "7687:7687" # Bolt Protocol Port
-        volumes:
-            - ./data/neo4j:/data
-        networks:
-            - backend
+    # neo4j:
+    #     image: neo4j:4.4
+    #     environment:
+    #         - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
+    #     ports:
+    #         - "7474:7474" # Neo4j Browser UI
+    #         - "7687:7687" # Bolt Protocol Port
+    #     volumes:
+    #         - ./data/neo4j:/data
+    #     networks:
+    #         - backend
 
     # CouchDB
-    couchdb:
-        image: couchdb:latest
-        ports:
-            - "5984:5984"
-        environment:
-            - COUCHDB_USER=${COUCHDB_USER}
-            - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    # couchdb:
+    #     image: couchdb:latest
+    #     ports:
+    #         - "5984:5984"
+    #     environment:
+    #         - COUCHDB_USER=${COUCHDB_USER}
+    #         - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    #     volumes:
+    #         - ./data/couchdb:/opt/couchdb/data
+    #     networks:
+    #         - backend
+
+    # Data Collection
+    data-collection:
+        build:
+            context: .
+            dockerfile: Dockerfile
         volumes:
-            - ./data/couchdb:/opt/couchdb/data
+            - .:/app
+        env_file:
+            - .env
         networks:
             - backend
+        depends_on:
+            - mysql
+            - mongo
+            - postgresql
+        command: >
+            sh -c "while true; do python src/api/data_collection.py; sleep 300; done"
 
 networks:
     backend:

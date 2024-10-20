@@ -5,11 +5,11 @@
     "main": "src/api",
     "dependencies": {
         "axios": "^1.7.7",
+        "dotenv": "^16.4.5",
         "mongodb": "^6.9.0",
         "mysql2": "^3.11.3",
         "pg": "^8.13.0"
     },
-    "devDependencies": {},
     "scripts": {
         "start": "node src/api/data_collection"
     },
@@ -24,4 +24,4 @@
         "url": "https://github.com/AutoContentLabs/data-collection/issues"
     },
     "homepage": "https://github.com/AutoContentLabs/data-collection#readme"
-  }
+}

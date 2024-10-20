@@ -1,14 +1,16 @@
+require("dotenv").config();
+
 const axios = require("axios");
 const { MongoClient } = require("mongodb");
 const { Client } = require("pg");
 const mysql = require("mysql2/promise"); // Use promise-based MySQL client
 
 // MongoDB Erişim Bilgileri
-const MONGO_DB_HOST_NAME = "localhost";
-const MONGO_DB_HOST_PORT = 27017;
-const MONGO_DB_NAME = "trend_db";
-const MONGO_DB_USERNAME = "mongoadmin";
-const MONGO_DB_PASSWORD = "strongpassword123";
+const MONGO_DB_HOST_NAME = process.env.MONGO_DB_HOST_NAME || "localhost";
+const MONGO_DB_HOST_PORT = process.env.MONGO_DB_HOST_PORT;
+const MONGO_DB_NAME = process.env.MONGO_DB_NAME;
+const MONGO_DB_USERNAME = process.env.MONGO_DB_USERNAME;
+const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD;
 
 // MongoDB Bağlantısı
 const mongoClient = new MongoClient(
@@ -17,11 +19,11 @@ const mongoClient = new MongoClient(
 const dbName = MONGO_DB_NAME;
 
 // PostgreSQL Erişim Bilgileri
-const POSTGRES_DB_HOST_NAME = "localhost";
-const POSTGRES_DB_HOST_PORT = 5432;
-const POSTGRES_DB_NAME = "trend_db";
-const POSTGRES_USER = "postgresadmin";
-const POSTGRES_PASSWORD = "securepassword456";
+const POSTGRES_DB_HOST_NAME = process.env.POSTGRES_DB_HOST_NAME || "localhost";
+const POSTGRES_DB_HOST_PORT = process.env.POSTGRES_DB_HOST_PORT;
+const POSTGRES_DB_NAME = process.env.POSTGRES_DB_NAME;
+const POSTGRES_USER = process.env.POSTGRES_USER;
+const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
 
 // PostgreSQL Bağlantısı
 const pgClient = new Client({
@@ -34,11 +36,11 @@ const pgClient = new Client({
 pgClient.connect();
 
 // MySQL Erişim Bilgileri
-const MYSQL_DB_HOST_NAME = "localhost";
-const MYSQL_DB_HOST_PORT = 3306;
-const MYSQL_DB_NAME = "data_sources_db";
-const MYSQL_USER = "my_user";
-const MYSQL_PASSWORD = "my_password";
+const MYSQL_DB_HOST_NAME = process.env.MYSQL_DB_HOST_NAME || "localhost";
+const MYSQL_DB_HOST_PORT = process.env.MYSQL_DB_HOST_PORT;
+const MYSQL_DB_NAME = process.env.MYSQL_DB_NAME;
+const MYSQL_USER = process.env.MYSQL_USER;
+const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
 
 // MySQL Bağlantısı
 async function getActiveSources() {

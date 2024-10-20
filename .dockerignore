@@ -1,0 +1,19 @@
+# Node.js modülleri
+node_modules
+npm-debug.log
+
+# Veri klasörleri
+data/
+./data/mysql/
+./data/mongodb/
+./data/postgresql/
+./data/redis/
+./data/clickhouse/
+
+# Python derleme dosyaları
+__pycache__/
+*.pyc
+
+# Diğer geçici dosyalar
+.DS_Store
+.env

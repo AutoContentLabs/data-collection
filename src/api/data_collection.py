@@ -4,28 +4,28 @@ import psycopg2
 import asyncio
 import aiomysql
 import json
-
+import os
 
 # MongoDB Access Information
-MONGO_DB_HOST_NAME = "localhost"
-MONGO_DB_HOST_PORT = 27017
-MONGO_DB_NAME = "trend_db"
-MONGO_DB_USERNAME = "mongoadmin"
-MONGO_DB_PASSWORD = "strongpassword123"
+MONGO_DB_HOST_NAME = os.getenv("MONGO_DB_HOST_NAME", "localhost")
+MONGO_DB_HOST_PORT = int(os.getenv("MONGO_DB_HOST_PORT", 27017))
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "trend_db")
+MONGO_DB_USERNAME = os.getenv("MONGO_DB_USERNAME", "mongoadmin")
+MONGO_DB_PASSWORD = os.getenv("MONGO_DB_PASSWORD", "strongpassword123")
 
 # PostgreSQL Access Information
-POSTGRES_DB_HOST_NAME = "localhost"
-POSTGRES_DB_HOST_PORT = 5432
-POSTGRES_DB_NAME = "trend_db"
-POSTGRES_USER = "postgresadmin"
-POSTGRES_PASSWORD = "securepassword456"
+POSTGRES_DB_HOST_NAME = os.getenv("POSTGRES_DB_HOST_NAME", "localhost")
+POSTGRES_DB_HOST_PORT = int(os.getenv("POSTGRES_DB_HOST_PORT", 5432))
+POSTGRES_DB_NAME = os.getenv("POSTGRES_DB_NAME", "trend_db")
+POSTGRES_USER = os.getenv("POSTGRES_USER", "postgresadmin")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "securepassword456")
 
 # MySQL Access Information
-MYSQL_DB_HOST_NAME = "localhost"
-MYSQL_DB_HOST_PORT = 3306
-MYSQL_DB_NAME = "data_sources_db"
-MYSQL_USER = "my_user"
-MYSQL_PASSWORD = "my_password"
+MYSQL_DB_HOST_NAME = os.getenv("MYSQL_DB_HOST_NAME", "localhost")
+MYSQL_DB_HOST_PORT = int(os.getenv("MYSQL_DB_HOST_PORT", 3306))
+MYSQL_DB_NAME = os.getenv("MYSQL_DB_NAME", "data_sources_db")
+MYSQL_USER = os.getenv("MYSQL_USER", "my_user")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "my_password")
 
 
 # MySQL connection for getting active sources
@@ -98,6 +98,7 @@ async def main():
     mongo_client = AsyncIOMotorClient(
         f"mongodb://{MONGO_DB_USERNAME}:{MONGO_DB_PASSWORD}@{MONGO_DB_HOST_NAME}:{MONGO_DB_HOST_PORT}/"
     )
+
     pg_conn = psycopg2.connect(
         host=POSTGRES_DB_HOST_NAME,
         port=POSTGRES_DB_HOST_PORT,
