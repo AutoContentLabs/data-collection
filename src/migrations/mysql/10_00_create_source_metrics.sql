@@ -3,7 +3,5 @@ CREATE TABLE source_metrics (
     source_id INT NOT NULL,
     source_metric_reliability_score DECIMAL(3, 2),
     source_metric_freshness_score DECIMAL(3, 2),
-    source_metric_measured_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    FOREIGN KEY (source_id) REFERENCES sources(id) ON DELETE CASCADE
+    source_metric_measured_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
