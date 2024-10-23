@@ -43,4 +43,4 @@ INSERT INTO sources (
 
 -- Middle East (ME)
 ('Google Trends (Turkey)', 'TR', 'Turkish', 'Human Society and Culture', 'Modern History', 'TR', 'Turkey', 'ME', 'Middle East', 'web', 'api', 'xml', 'trends.google.com', '/trending/rss?geo=TR', 0.85, 0.90, TRUE),
-('Open-Meteo (Turkey)', 'TR', 'Turkish', 'The Universe and Natural World', 'Meteorology', 'TR', 'Turkey', 'ME', 'Middle East', 'web', 'api', 'json', 'api.open-meteo.com', '/v1/forecast?latitude=39.9334&longitude=32.8597&hourly=temperature_2m', 0.85, 0.90, TRUE),
+('Open-Meteo (Turkey)', 'TR', 'Turkish', 'The Universe and Natural World', 'Meteorology', 'TR', 'Turkey', 'ME', 'Middle East', 'web', 'api', 'json', 'api.open-meteo.com', '/v1/forecast?latitude=39.9334&longitude=32.8597&hourly=temperature_2m', 0.85, 0.90, TRUE);

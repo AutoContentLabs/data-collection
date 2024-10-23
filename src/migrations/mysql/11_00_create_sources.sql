@@ -1,6 +1,6 @@
 CREATE TABLE sources (
     source_id INT AUTO_INCREMENT PRIMARY KEY,
-    source_name VARCHAR(100) NOT NULL,
+    source_name VARCHAR(100) NOT NULL, 
     language_code CHAR(2) NOT NULL,
     language_name VARCHAR(50) NOT NULL,
     category_name VARCHAR(100) NOT NULL, 
