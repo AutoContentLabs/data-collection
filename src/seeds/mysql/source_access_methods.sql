@@ -1,0 +1,17 @@
+INSERT INTO source_access_methods (source_access_method) VALUES
+('form'),
+('survey'),
+('csv'),
+('excel'),
+('api'),
+('scraping'),
+('ftp'),
+('socket'),
+('mysql'),
+('postgresql'),
+('twitter'),
+('facebook'),
+('news-site'),
+('blog'),
+('podcast'),
+('video');
