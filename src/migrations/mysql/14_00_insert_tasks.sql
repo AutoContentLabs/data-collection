@@ -1,0 +1,5 @@
+-- INSERT INTO tasks (source_id, task_type, scheduled_time)
+-- VALUES 
+--     (1, 'update', '2024-10-25 10:00:00'),  -- Insert a task for updating data from source_id 1 at 10:00 AM
+--     (2, 'check', '2024-10-25 14:00:00'),   -- Insert a task for checking data from source_id 2 at 2:00 PM
+--     (3, 'update', '2024-10-25 18:00:00');  -- Insert a task for updating data from source_id 3 at 6:00 PM

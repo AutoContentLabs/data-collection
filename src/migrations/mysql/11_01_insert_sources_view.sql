@@ -1,0 +1,65 @@
+-- Explanation
+-- source_name: The name of the source.
+-- source_description: A description of the source.
+-- language_code and language_name: The language of the source.
+-- category_name and subcategory_name: Category and subcategory, which can be adjusted based on your needs.
+-- source_tags: Tags that describe the source.
+-- country_code and country_name: Country information.
+-- region_code and region_name: Region information.
+-- source_domain and source_query: The URL details of the source.
+-- source_access_method: The access method.
+-- source_type and source_access_type: Type and access method of the source.
+-- source_data_format: The data format.
+-- source_data_structure_type and source_data_structure_category: Data structure and category information.
+-- source_time_interval: Frequency of updates.
+-- source_metric_reliability_score and source_metric_freshness_score: Reliability and freshness scores.
+-- source_status: The status of the source
+-- INSERT INTO sources_view (
+--     source_name,
+--     source_description,
+--     language_code,
+--     language_name,
+--     category_name,
+--     subcategory_name,
+--     source_tags,
+--     country_code,
+--     country_name,
+--     region_code,
+--     region_name,
+--     source_domain,
+--     source_query,
+--     source_access_method,
+--     source_type,
+--     source_access_type,
+--     source_data_format,
+--     source_data_structure_type,
+--     source_data_structure_category,
+--     source_time_interval,
+--     source_metric_reliability_score,
+--     source_metric_freshness_score,
+--     source_status
+-- ) VALUES (
+--     'Google Trends (US)',
+--     'Google Trends provides insights into trending topics in the United States.',
+--     'EN',
+--     'English',
+--     'Technology and Innovation',
+--     'Trends and Analytics',
+--     'trends, analytics, popular, topics',
+--     'US',
+--     'United States of America',
+--     'NA',
+--     'North America',
+--     'trends.google.com',
+--     '/trending/rss?geo=US',
+--     'free',
+--     'web',
+--     'api',
+--     'xml',
+--     'real_time',
+--     'social_media_data',
+--     'hourly',
+--     0.85,
+--     0.90,
+--     'active'
+-- );
