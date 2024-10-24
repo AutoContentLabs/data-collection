@@ -27,8 +27,9 @@ CREATE TABLE sources_view (
     -- ('Data and Information Systems', 'Topics related to data science and information technology.');
     category_name VARCHAR(100) NOT NULL,
 
-    -- -- "The Universe and Natural World"
-    -- subcategories (category_name, subcategory_name)
+    -- Categories and Subcategories
+    -- "The Universe and Natural World"
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('The Universe and Natural World', 'Cosmos and Space'),
     -- ('The Universe and Natural World', 'Galaxies'),
     -- ('The Universe and Natural World', 'Stars'),
@@ -42,17 +43,20 @@ CREATE TABLE sources_view (
     -- ('The Universe and Natural World', 'Ecology');
 
     -- -- "Human Society and Culture"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Human Society and Culture', 'History'),
     -- ('Human Society and Culture', 'Ancient History'),
     -- ('Human Society and Culture', 'Modern History'),
     -- ('Human Society and Culture', 'Politics and Governance'),
     -- ('Human Society and Culture', 'Economics'),
     -- ('Human Society and Culture', 'Religion and Belief Systems'),
-    -- ('Human Society and Culture', 'Law and Order');
+    -- ('Human Society and Culture', 'Law and Order'),
+    -- ('Human Society and Culture', 'Social Media and Communication'),
+    -- ('Human Society and Culture', 'Sociology'),
+    -- ('Human Society and Culture', 'Communication');
 
     -- -- "Technology and Innovation"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Technology and Innovation', 'Artificial Intelligence'),
     -- ('Technology and Innovation', 'Machine Learning'),
     -- ('Technology and Innovation', 'Blockchain'),
@@ -62,10 +66,12 @@ CREATE TABLE sources_view (
     -- ('Technology and Innovation', 'Software Development'),
     -- ('Technology and Innovation', 'Biotechnology'),
     -- ('Technology and Innovation', 'Nanotechnology'),
-    -- ('Technology and Innovation', 'Automation');
+    -- ('Technology and Innovation', 'Automation'),
+    -- ('Technology and Innovation', 'Communication'),
+    -- ('Technology and Innovation', 'Data Science');
 
     -- -- "Human Needs and Activities"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Human Needs and Activities', 'Health and Medicine'),
     -- ('Human Needs and Activities', 'Nutrition'),
     -- ('Human Needs and Activities', 'Fitness and Exercise'),
@@ -78,7 +84,7 @@ CREATE TABLE sources_view (
     -- ('Human Needs and Activities', 'Childcare and Parenting');
 
     -- -- "Creative Arts and Entertainment"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Creative Arts and Entertainment', 'Literature'),
     -- ('Creative Arts and Entertainment', 'Music'),
     -- ('Creative Arts and Entertainment', 'Visual Arts'),
@@ -88,10 +94,11 @@ CREATE TABLE sources_view (
     -- ('Creative Arts and Entertainment', 'Dance'),
     -- ('Creative Arts and Entertainment', 'Photography'),
     -- ('Creative Arts and Entertainment', 'Comics and Graphic Novels'),
-    -- ('Creative Arts and Entertainment', 'Fashion');
+    -- ('Creative Arts and Entertainment', 'Fashion'),
+    -- ('Creative Arts and Entertainment', 'Entertainment');
 
     -- -- "Human Interaction and Social Structure"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Human Interaction and Social Structure', 'Sociology'),
     -- ('Human Interaction and Social Structure', 'Psychology'),
     -- ('Human Interaction and Social Structure', 'Communication'),
@@ -104,7 +111,7 @@ CREATE TABLE sources_view (
     -- ('Human Interaction and Social Structure', 'Globalization');
 
     -- -- "Leisure and Recreation"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Leisure and Recreation', 'Sports'),
     -- ('Leisure and Recreation', 'Travel'),
     -- ('Leisure and Recreation', 'Hobbies'),
@@ -117,7 +124,7 @@ CREATE TABLE sources_view (
     -- ('Leisure and Recreation', 'Amateur Sports');
 
     -- -- "Man-made Constructs"
-    -- subcategories (category_name, subcategory_name)
+    -- subcategories (category_name, subcategory_name) VALUES
     -- ('Man-made Constructs', 'Architecture'),
     -- ('Man-made Constructs', 'Urban Planning'),
     -- ('Man-made Constructs', 'Civil Engineering'),
@@ -345,9 +352,15 @@ CREATE TABLE sources_view (
     source_query VARCHAR(255),
 
     -- Access method (e.g., 'free', 'subscription', 'open_access')
-    -- ('free'),
-    -- ('subscription'),
-    -- ('open_access');    
+    --  ('free'),               -- Represents data sources that are available at no cost
+    -- ('subscription'),       -- Refers to sources that require a subscription fee for access
+    -- ('open_access'),       -- Indicates data that is freely available to the public without restrictions
+    -- ('paywall'),           -- Sources that provide limited access, requiring payment for full access
+    -- ('limited_access'),    -- Represents sources with restrictions on the amount or type of data available
+    -- ('membership'),        -- Indicates sources that require membership for access
+    -- ('trial'),             -- Refers to sources offering a trial period before requiring payment
+    -- ('one_time_purchase'), -- Represents data sources that can be accessed through a one-time payment
+    -- ('institutional_access'); -- Indicates access provided to institutions (like universities or libraries)
     source_access_method VARCHAR(50) NOT NULL,
 
     -- Type of source
@@ -367,7 +380,7 @@ CREATE TABLE sources_view (
     -- ('api'),
     -- ('scraping'),
     -- ('ftp'),
-    -- ('socket'),
+    -- ('socket'),  
     -- ('mysql'),
     -- ('postgresql'),
     -- ('twitter'),
@@ -378,7 +391,6 @@ CREATE TABLE sources_view (
     -- ('video');
     source_access_type VARCHAR(50) NOT NULL,
     
-
     -- Format of the data
     -- ('txt'),
     -- ('csv'),
@@ -389,7 +401,6 @@ CREATE TABLE sources_view (
     -- ('audio'),
     -- ('video');   
     source_data_format VARCHAR(50),  
-
 
     -- This field specifies the type of data structure.
     -- Data types include time series, real-time, historical, aggregated, categorical, text, and numerical.

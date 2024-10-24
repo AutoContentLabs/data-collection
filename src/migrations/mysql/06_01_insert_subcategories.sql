@@ -1,3 +1,4 @@
+-- Categories and Subcategories
 -- "The Universe and Natural World"
 INSERT INTO subcategories (category_name, subcategory_name) VALUES
 ('The Universe and Natural World', 'Cosmos and Space'),
@@ -20,7 +21,10 @@ INSERT INTO subcategories (category_name, subcategory_name) VALUES
 ('Human Society and Culture', 'Politics and Governance'),
 ('Human Society and Culture', 'Economics'),
 ('Human Society and Culture', 'Religion and Belief Systems'),
-('Human Society and Culture', 'Law and Order');
+('Human Society and Culture', 'Law and Order'),
+('Human Society and Culture', 'Social Media and Communication'),
+('Human Society and Culture', 'Sociology'),
+('Human Society and Culture', 'Communication');
 
 -- "Technology and Innovation"
 INSERT INTO subcategories (category_name, subcategory_name) VALUES
@@ -33,7 +37,9 @@ INSERT INTO subcategories (category_name, subcategory_name) VALUES
 ('Technology and Innovation', 'Software Development'),
 ('Technology and Innovation', 'Biotechnology'),
 ('Technology and Innovation', 'Nanotechnology'),
-('Technology and Innovation', 'Automation');
+('Technology and Innovation', 'Automation'),
+('Technology and Innovation', 'Communication'),
+('Technology and Innovation', 'Data Science');
 
 -- "Human Needs and Activities"
 INSERT INTO subcategories (category_name, subcategory_name) VALUES
@@ -59,7 +65,8 @@ INSERT INTO subcategories (category_name, subcategory_name) VALUES
 ('Creative Arts and Entertainment', 'Dance'),
 ('Creative Arts and Entertainment', 'Photography'),
 ('Creative Arts and Entertainment', 'Comics and Graphic Novels'),
-('Creative Arts and Entertainment', 'Fashion');
+('Creative Arts and Entertainment', 'Fashion'),
+('Creative Arts and Entertainment', 'Entertainment');
 
 -- "Human Interaction and Social Structure"
 INSERT INTO subcategories (category_name, subcategory_name) VALUES
