@@ -1,159 +1,55 @@
+-- INSERT INTO collections (source_data_structure_type, source_data_structure_category, source, data, collection_data) VALUES
+-- ('time_series', 'meteorological_data', '{"source_name": "Open Meteo", "source_id": 1}', 
+-- '[
+--     {"timestamp": "2024-10-01T00:00:00Z", "value": 22.5},
+--     {"timestamp": "2024-10-02T00:00:00Z", "value": 21.7},
+--     {"timestamp": "2024-10-03T00:00:00Z", "value": 23.1}
+-- ]', 'Daily temperature readings for October 2024.'),
+-- ('real_time', 'social_media_data', '{"source_name": "Twitter", "source_id": 2}', 
+-- '[
+--     {"platform": "Twitter", "metric": "Live Tweet Count", "value": 1500, "timestamp": "2024-10-24T12:00:00Z"},
+--     {"platform": "Stock Market", "metric": "Current Price - XYZ Corp", "value": 145.00, "timestamp": "2024-10-24T12:00:00Z"}
+-- ]', 'Real-time engagement data from social media.'),
+-- ('historical', 'economic_data', '{"source_name": "Market Analysis", "source_id": 3}', 
+-- '[
+--     {"event": "Stock Price - XYZ Corp", "value": 120.50, "date": "2023-10-24"},
+--     {"event": "Unemployment Rate", "value": 7.2, "date": "2023-10-01"}
+-- ]', 'Historical economic indicators for analysis.');
+
 INSERT INTO collections (
+    source_data_structure_type, 
+    source_data_structure_category, 
     source, 
-    collection_data, 
-    collected_at
-) VALUES 
-(
-    '{
-        "source_id": 6,
-        "source_name": "Google Trends (Turkey)",
-        "language_code": "TR",
-        "language_name": "Turkish",
-        "category_name": "Human Society and Culture",
-        "subcategory_name": "Modern History",
-        "country_code": "TR",
-        "country_name": "Turkey",
-        "region_code": "ME",
-        "region_name": "Middle East",
-        "source_type": "web",
-        "source_access_method": "api",
-        "source_data_type": "xml",
-        "source_domain": "trends.google.com",
-        "source_query": "/trending/rss?geo=TR",
-        "source_reliability_score": 0.85,
-        "source_freshness_score": 0.90,
-        "source_is_active": true
-    }',
-    '{
-        "trending": [
-            {
-                "title": "Hava Durumu",
-                "url": "https://example.com/hava-durumu",
-                "date": "2024-01-01"
-            },
-            {
-                "title": "Yerel Seçimler",
-                "url": "https://example.com/yerel-secimler",
-                "date": "2024-01-02"
-            }
-        ]
-    }',
-    CURRENT_TIMESTAMP
+    data, 
+    collection_data
+) VALUES (
+    'real_time', 
+    'social_media_data', 
+    '{"source_name": "Google Trends", "source_id": LAST_INSERT_ID()}', 
+    '[
+        {"topic": "Küresel Isınma", "interest": 75, "timestamp": "2024-10-24T12:00:00Z"},
+        {"topic": "Yapay Zeka", "interest": 80, "timestamp": "2024-10-24T12:00:00Z"},
+        {"topic": "Türkiye Ekonomisi", "interest": 65, "timestamp": "2024-10-24T12:00:00Z"}
+    ]', 
+    'Real-time trending topics in Turkey from Google Trends.'
 );
 
 INSERT INTO collections (
+    source_data_structure_type, 
+    source_data_structure_category, 
     source, 
-    collection_data, 
-    collected_at
-) VALUES 
-(
-    '{
-        "source_id": 7,
-        "source_name": "Open-Meteo (Turkey)",
-        "language_code": "TR",
-        "language_name": "Turkish",
-        "category_name": "The Universe and Natural World",
-        "subcategory_name": "Meteorology",
-        "country_code": "TR",
-        "country_name": "Turkey",
-        "region_code": "ME",
-        "region_name": "Middle East",
-        "source_type": "web",
-        "source_access_method": "api",
-        "source_data_type": "json",
-        "source_domain": "api.open-meteo.com",
-        "source_query": "/v1/forecast?latitude=39.9334&longitude=32.8597&hourly=temperature_2m",
-        "source_reliability_score": 0.85,
-        "source_freshness_score": 0.90,
-        "source_is_active": true
-    }',
-    '<weather>
-        <location>
-            <city>Istanbul</city>
-            <temperature unit="Celsius">22</temperature>
-            <forecast>
-                <day date="2024-01-01">
-                    <condition>Sunny</condition>
-                    <high>24</high>
-                    <low>18</low>
-                </day>
-            </forecast>
-        </location>
-    </weather>',
-    CURRENT_TIMESTAMP
-);
-
-INSERT INTO collections (
-    source, 
-    collection_data, 
-    collected_at
-) VALUES 
-(
-    '{
-        "source_id": 1,
-        "source_name": "Google Trends (United States)",
-        "language_code": "EN",
-        "language_name": "English",
-        "category_name": "Human Society and Culture",
-        "subcategory_name": "Modern History",
-        "country_code": "US",
-        "country_name": "United States",
-        "region_code": "NA",
-        "region_name": "North America",
-        "source_type": "web",
-        "source_access_method": "api",
-        "source_data_type": "xml",
-        "source_domain": "trends.google.com",
-        "source_query": "/trending/rss?geo=US",
-        "source_reliability_score": 0.85,
-        "source_freshness_score": 0.90,
-        "source_is_active": true
-    }',
-    '<div class="trending-topics">
-        <h2>Trending Topics in the US</h2>
-        <ul>
-            <li><a href="https://example.com/topic1">Topic 1</a></li>
-            <li><a href="https://example.com/topic2">Topic 2</a></li>
-        </ul>
-    </div>',
-    CURRENT_TIMESTAMP
-);
-
-INSERT INTO collections (
-    source, 
-    collection_data, 
-    collected_at
-) VALUES 
-(
-    '{
-        "source_id": 2,
-        "source_name": "Open-Meteo (United States)",
-        "language_code": "EN",
-        "language_name": "English",
-        "category_name": "The Universe and Natural World",
-        "subcategory_name": "Meteorology",
-        "country_code": "US",
-        "country_name": "United States",
-        "region_code": "NA",
-        "region_name": "North America",
-        "source_type": "web",
-        "source_access_method": "api",
-        "source_data_type": "json",
-        "source_domain": "api.open-meteo.com",
-        "source_query": "/v1/forecast?latitude=37.7749&longitude=-122.4194&hourly=temperature_2m",
-        "source_reliability_score": 0.85,
-        "source_freshness_score": 0.90,
-        "source_is_active": true
-    }',
-    '{
-        "forecast": {
-            "location": "San Francisco",
-            "temperature": {
-                "current": 18,
-                "high": 22,
-                "low": 14
-            }
-        }
-    }',
-    CURRENT_TIMESTAMP
+    data, 
+    collection_data
+) VALUES (
+    'time_series', 
+    'meteorological_data', 
+    '{"source_name": "Open Meteo", "source_id": LAST_INSERT_ID()}', 
+    '[
+        {"timestamp": "2024-10-24T08:00:00Z", "temperature": 15.3},
+        {"timestamp": "2024-10-24T09:00:00Z", "temperature": 16.1},
+        {"timestamp": "2024-10-24T10:00:00Z", "temperature": 17.8},
+        {"timestamp": "2024-10-24T11:00:00Z", "temperature": 18.5},
+        {"timestamp": "2024-10-24T12:00:00Z", "temperature": 19.2}
+    ]', 
+    'Hourly temperature readings for Ankara from Open Meteo.'
 );

@@ -1,5 +1,12 @@
--- INSERT INTO tasks (source_id, task_type, scheduled_time)
--- VALUES 
---     (1, 'update', '2024-10-25 10:00:00'),  -- Insert a task for updating data from source_id 1 at 10:00 AM
---     (2, 'check', '2024-10-25 14:00:00'),   -- Insert a task for checking data from source_id 2 at 2:00 PM
---     (3, 'update', '2024-10-25 18:00:00');  -- Insert a task for updating data from source_id 3 at 6:00 PM
+-- Explanation:
+-- source_id: This should correspond to existing source_id values in your sources table.
+-- task_type: Specifies whether the task is an update or a check.
+-- task_scheduled_time: Indicates when each task is scheduled.
+-- task_status: Sets the initial status of the task.
+
+-- INSERT INTO tasks (source_id, task_type, task_scheduled_time, task_status) VALUES
+-- (1, 'update', '2024-10-01 10:00:00', 'pending'),
+-- (2, 'check', '2024-10-01 11:00:00', 'pending'),
+-- (3, 'update', '2024-10-01 12:00:00', 'completed'),
+-- (4, 'check', '2024-10-02 09:30:00', 'failed'),
+-- (5, 'update', '2024-10-02 14:00:00', 'pending');

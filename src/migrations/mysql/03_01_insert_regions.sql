@@ -1,9 +1,9 @@
 INSERT INTO regions (region_code, region_name) VALUES
-('AF', 'Africa'),
-('AS', 'Asia'),
-('EU', 'Europe'),
-('NA', 'North America'),
-('SA', 'South America'),
-('OC', 'Oceania'),
-('AN', 'Antarctica'),
-('ME', 'Middle East');
+('AF', 'Africa'),                          -- African continent
+('AS', 'Asia'),                            -- Asian continent
+('EU', 'Europe'),                          -- European continent
+('NA', 'North America'),                   -- North American continent
+('SA', 'South America'),                   -- South American continent
+('OC', 'Oceania'),                         -- Oceania
+('AN', 'Antarctica'),                     -- Antarctica
+('ME', 'Middle East');                     -- Middle Eastern region

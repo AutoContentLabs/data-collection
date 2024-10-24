@@ -45,11 +45,7 @@ INSERT INTO languages (language_code, language_name) VALUES
 ('GA', 'Irish'),
 ('CY', 'Welsh'),
 ('MK', 'Macedonian'),
-('BN', 'Bengali'),
 ('SQ', 'Albanian'),
 ('HT', 'Haitian Creole'),
 ('YO', 'Yoruba'),
-('AM', 'Amharic'),
-('SW', 'Swahili'),
-('TL', 'Tagalog'),
-('HT', 'Haitian Creole');
+('AM', 'Amharic');

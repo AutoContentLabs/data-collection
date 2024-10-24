@@ -182,7 +182,6 @@ INSERT INTO countries (country_code, country_name, region_code, region_name) VAL
 ('KN', 'Saint Kitts and Nevis', 'NA', 'North America'),
 ('LC', 'Saint Lucia', 'NA', 'North America'),
 ('MF', 'Saint Martin (French part)', 'NA', 'North America'),
-('SX', 'Saint Martin (Dutch part)', 'NA', 'North America'),
 ('VC', 'Saint Vincent and the Grenadines', 'NA', 'North America'),
 ('WS', 'Samoa', 'OC', 'Oceania'),
 ('SM', 'San Marino', 'EU', 'Europe'),
